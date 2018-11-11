@@ -1,0 +1,26 @@
+import com.amazonaws.AmazonServiceException;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
+import com.amazonaws.services.s3.model.S3ObjectSummary;
+import com.amazonaws.services.s3.model.ObjectListing;
+public class DeleteFolder
+{
+	public static void main(String[] args)
+	{
+		final AmazonS3 s3= AmazonS3ClientBuilder.defaultClient();
+		String bucket_name="<your-bucket-name>";
+		String object_key="<name>";
+	ObjectListing objects = s3.listObjects(bucket_name, object_key);		
+		for(S3ObjectSummary ob : objects.getObjectSummaries())
+		{
+			try{
+			s3.deleteObject(bucket_name, ob.getKey());
+			}
+			catch(AmazonServiceException e)
+			{
+				System.err.println(e.getErrorMessage());
+			}
+		}
+	}
+}
