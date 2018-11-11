@@ -1,0 +1,33 @@
+import com.amazonaws.services.s3.transfer.MultipleFileUpload;
+import com.amazonaws.services.s3.transfer.TransferManager;
+import com.amazonaws.AmazonServiceException;
+import com.amazonaws.AmazonClientException;
+import java.io.*;
+public class WriteFolder
+{
+	
+	public static void main(String[] args)
+	{
+		TransferManager tm =new TransferManager();
+		String dir_path="D:/api";
+		String key_prefix=">folder-name>";
+		String bucket_name="<your-bucket-name>";
+		boolean recursive = false;
+		MultipleFileUpload mf = tm.uploadDirectory(bucket_name, key_prefix, new File(dir_path), recursive);
+		try{
+			mf.waitForCompletion();
+		}catch(AmazonServiceException e)
+		{
+			System.err.println("Service Exception Message: " + e.getMessage());
+		}
+		catch (InterruptedException e)
+		{
+			System.err.println("Interrupted Exception Message" + e.getMessage());
+		}
+		catch(AmazonClientException e)
+		{
+			System.err.println("Client Eception Message" + e.getMessage());
+		}
+		tm.shutdownNow();
+}
+	}
