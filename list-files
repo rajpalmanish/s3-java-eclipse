@@ -1,0 +1,24 @@
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.AmazonServiceException;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import java.util.List;
+import com.amazonaws.services.s3.model.ObjectListing;
+import com.amazonaws.services.s3.model.S3ObjectSummary;
+import java.io.*;
+public class ListFiles
+{
+	public static void main(String[] args)
+	{
+		String bucket_name="<your-bucket-name>";
+		final AmazonS3 s3 = AmazonS3ClientBuilder.defaultClient();
+		ObjectListing ol= s3.listObjects(bucket_name);
+		List<S3ObjectSummary> objects = ol.getObjectSummaries();
+		for(S3ObjectSummary os : objects)
+		{
+			System.out.println("*" + os.getKey());
+			
+		}
+		
+		
+	}
+}
