@@ -1,0 +1,25 @@
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.AmazonServiceException;
+import java.io.File;
+
+public class UploadFile
+{
+	public static void main(String[] args)
+	{
+		
+		final AmazonS3 s3 = AmazonS3ClientBuilder.defaultClient();
+		String bucket_name="<your-bucket-name>";
+		String key_name="<file-name>";
+		String file_path="<file-sample-path example>D://api/hello.txt";
+		
+		try{
+			s3.putObject(bucket_name,key_name,new File(file_path));
+		}
+		catch(AmazonServiceException e)
+		{
+			System.err.println(e.getErrorMessage());
+			System.exit(1);
+		}
+	}
+}
